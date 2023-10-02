@@ -1,6 +1,6 @@
 import { ApplicationRef, Injectable } from '@angular/core';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
-import { EMPTY, catchError, filter, first, from, mergeMap } from 'rxjs';
+import { EMPTY, catchError, concat, filter, first, from, interval, mergeMap } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class UpdateService {
@@ -12,7 +12,10 @@ export class UpdateService {
     const appIsStable$ = this.appRef.isStable.pipe(
       first((isStable) => isStable === true)
     );
-    appIsStable$
+    const every30Seconds$ = interval(6 * 60 * 60 * 1000);
+    const every30SecondsOnceAppIsStable$ = concat(appIsStable$, every30Seconds$);
+
+    const appUpdates$ = appIsStable$
       .pipe(
         mergeMap(() => from(this.updates.checkForUpdate())),
         catchError((err) => {
@@ -31,14 +34,16 @@ export class UpdateService {
             );
           }
           else {
-            console.log('No updates available');
+            console.log(`No updates available. Checked at ${new Date().toUTCString()}`);
             return EMPTY;
           }
         })
       )
-      .subscribe((appUpdate) => {
+      every30SecondsOnceAppIsStable$.pipe(
+        mergeMap(() => appUpdates$)
+      ).subscribe((appUpdate) => {
         console.log(appUpdate);
-      });
+      })
   }
 
   updateApplication(){
