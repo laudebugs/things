@@ -6,7 +6,6 @@ import { EMPTY, catchError, filter, first, from, mergeMap } from 'rxjs';
 export class UpdateService {
   constructor(private appRef: ApplicationRef, private updates: SwUpdate) {
     this.checkForUpdates();
-    console.log('initialized update service')
   }
 
   checkForUpdates() {
@@ -31,7 +30,10 @@ export class UpdateService {
               )
             );
           }
-          return EMPTY;
+          else {
+            console.log('No updates available');
+            return EMPTY;
+          }
         })
       )
       .subscribe((appUpdate) => {
