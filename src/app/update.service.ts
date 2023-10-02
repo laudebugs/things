@@ -1,7 +1,7 @@
 import { ApplicationRef, Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
-import { EMPTY, catchError, concat, filter, first, from, interval, mergeMap } from 'rxjs';
+import { EMPTY, concat, filter, first, from, interval, mergeMap } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class UpdateService {
@@ -16,16 +16,13 @@ export class UpdateService {
     const every30Seconds$ = interval(30 * 1000);
     const every30SecondsOnceAppIsStable$ = concat(appIsStable$, every30Seconds$);
 
+    const update$ = from(this.updates.checkForUpdate().catch(()=>{
+      console.log('Failed to check for update');
+      return Promise.resolve(false);
+    }))
     const appUpdates$ = appIsStable$
       .pipe(
-        mergeMap(() => from(this.updates.checkForUpdate())),
-        catchError((err) => {
-          console.log(
-            `%cThere was an error checking for updates: ${err}`,
-            'background: #e91e63; color: #fff'
-          );
-          return EMPTY;
-        }),
+        mergeMap(() => update$),
         mergeMap((updateAvailable) => {
           if (updateAvailable) {
             return this.updates.versionUpdates.pipe(
