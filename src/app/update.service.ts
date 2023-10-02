@@ -5,7 +5,7 @@ import { EMPTY, catchError, concat, filter, first, from, interval, mergeMap } fr
 
 @Injectable({providedIn: 'root'})
 export class UpdateService {
-  constructor(private appRef: ApplicationRef, private updates: SwUpdate, private matSnackBar: MatSnackBar, private snackRef: MatSnackBarRef<any>) {
+  constructor(private appRef: ApplicationRef, private updates: SwUpdate, private matSnackBar: MatSnackBar,) {
     this.checkForUpdates();
   }
 
