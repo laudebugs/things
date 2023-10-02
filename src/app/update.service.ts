@@ -1,7 +1,7 @@
 import { ApplicationRef, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
-import { EMPTY, concat, filter, first, from, interval, mergeMap } from 'rxjs';
+import { EMPTY, catchError, concat, filter, first, from, interval, mergeMap, retry } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class UpdateService {
@@ -26,9 +26,14 @@ export class UpdateService {
         mergeMap((updateAvailable) => {
           if (updateAvailable) {
             return this.updates.versionUpdates.pipe(
+              retry(3),
               filter(
                 (evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'
-              )
+              ),
+              catchError((error) => {
+                console.error('Error occurred while updating: ', error.message);
+                return EMPTY;
+              })
             );
           }
           else {
