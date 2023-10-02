@@ -40,6 +40,14 @@ export class UpdateService {
           }
         })
       )
+
+      this.updates.versionUpdates
+        .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
+        .subscribe(evt => {
+          this.updateApplication();
+        });
+
+
       every30SecondsOnceAppIsStable$.pipe(
         mergeMap(() => appUpdates$)
       ).subscribe((appUpdate) => {
