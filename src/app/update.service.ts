@@ -41,18 +41,6 @@ export class UpdateService {
         })
       )
 
-      this.updates.versionUpdates
-        .subscribe(evt => {
-          if(evt.type === 'VERSION_READY'){
-
-            this.updateApplication(evt);
-          }
-          else {
-            console.log(`No updates available. Current Hash: ${evt.version} Checked at ${new Date().toUTCString()}`);
-          }
-        });
-
-
       every30SecondsOnceAppIsStable$.pipe(
         mergeMap(() => appUpdates$)
       ).subscribe((appUpdate) => {
@@ -62,6 +50,9 @@ export class UpdateService {
 
   updateApplication(appUpdate: VersionReadyEvent){
     console.log(appUpdate);
-    this.matSnackBar.open(`Updating from ${appUpdate.currentVersion} to the latest version ${appUpdate.latestVersion}`, 'Dismiss', {duration: 30 * 1000});
+    const snackBar = this.matSnackBar.open(`Updating from ${appUpdate.currentVersion} to the latest version ${appUpdate.latestVersion}`, 'Dismiss', {duration: 30 * 1000,});
+    snackBar.afterDismissed().subscribe(() => {
+      window.location.reload();
+    })
   }
 }
