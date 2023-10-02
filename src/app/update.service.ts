@@ -1,10 +1,11 @@
 import { ApplicationRef, Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { EMPTY, catchError, concat, filter, first, from, interval, mergeMap } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class UpdateService {
-  constructor(private appRef: ApplicationRef, private updates: SwUpdate) {
+  constructor(private appRef: ApplicationRef, private updates: SwUpdate, private matSnackBar: MatSnackBar) {
     this.checkForUpdates();
   }
 
@@ -43,10 +44,11 @@ export class UpdateService {
         mergeMap(() => appUpdates$)
       ).subscribe((appUpdate) => {
         console.log(appUpdate);
+        this.updateApplication();
       })
   }
 
   updateApplication(){
-
+    this.matSnackBar.open('Updating to the latest version...', 'Dismiss', {duration: 30 * 1000});
   }
 }
