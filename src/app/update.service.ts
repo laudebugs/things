@@ -13,7 +13,7 @@ export class UpdateService {
     const appIsStable$ = this.appRef.isStable.pipe(
       first((isStable) => isStable === true)
     );
-    const every30Seconds$ = interval(6 * 60 * 60 * 1000);
+    const every30Seconds$ = interval(30 * 1000);
     const every30SecondsOnceAppIsStable$ = concat(appIsStable$, every30Seconds$);
 
     const appUpdates$ = appIsStable$
