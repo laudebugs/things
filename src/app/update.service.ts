@@ -7,6 +7,7 @@ import { EMPTY, catchError, concat, filter, first, from, interval, mergeMap, ret
 export class UpdateService {
   constructor(private appRef: ApplicationRef, private updates: SwUpdate, private matSnackBar: MatSnackBar,) {
     this.checkForUpdates();
+    // this.updateApplication({currentVersion: {hash: '123'}, latestVersion: {hash: '456'}} as VersionReadyEvent)
   }
 
   checkForUpdates() {
