@@ -47,6 +47,12 @@ export class UpdateService {
       catchError(() => EMPTY),
     );
 
+    updateIsAvailable$.subscribe((value) => {
+      console.log(`updateIsAvailable$ ${value}`);
+    })
+    appUpdate$.subscribe((value) => {
+      console.log(`appUpdate$ ${value}`);
+    })
     const appUpdates$ = appIsStable$.pipe(
       mergeMap(() => updateIsAvailable$.pipe(
         mergeMap(() => appUpdate$),
