@@ -49,13 +49,8 @@ export class UpdateService {
         console.log('Update available: ', updateAvailable);
       })
     );
-    const appUpdates$ = appIsStable$.pipe(
-      mergeMap(() => update$),
-      retry()
-    );
 
     const versionUpdates$ = this.updates.versionUpdates.pipe(
-      // retry(3),
       filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
       tap((evt) => console.log('Version update event: ', evt)),
       catchError((error) => {
@@ -64,7 +59,10 @@ export class UpdateService {
       })
     );
 
-    versionUpdates$.subscribe((evt) => this.updateApplication(evt));
+    const appUpdates$ = concat(appIsStable$, update$).pipe(
+      mergeMap(() => versionUpdates$),
+      retry()
+    );
 
     every30SecondsOnceAppIsStable$
       .pipe(mergeMap(() => appUpdates$))
