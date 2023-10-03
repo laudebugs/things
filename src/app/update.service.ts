@@ -52,6 +52,7 @@ export class UpdateService {
   }
 
   updateApplication(appUpdate: VersionReadyEvent) {
+    console.log('Update Available: ' + appUpdate.currentVersion.hash + ' -> ' + appUpdate.latestVersion.hash);
     const snack = this.snackbar.open('Update Available', 'Reload');
 
     snack.afterDismissed().subscribe(() => window.location.reload());
