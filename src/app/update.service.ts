@@ -64,11 +64,11 @@ export class UpdateService {
       retry()
     );
 
-    versionUpdates$.subscribe((value) => {
-      console.log(`Version ${value.currentVersion.hash} downloaded`);
-      console.log(`Version ${value.latestVersion.hash} ready to install`);
-      this.updateApplication(value);
-    });
+    // versionUpdates$.subscribe((value) => {
+    //   console.log(`Version ${value.currentVersion.hash} downloaded`);
+    //   console.log(`Version ${value.latestVersion.hash} ready to install`);
+    //   this.updateApplication(value);
+    // });
 
     every30SecondsOnceAppIsStable$
       .pipe(mergeMap(() => appUpdates$))
