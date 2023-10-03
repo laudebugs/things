@@ -28,6 +28,12 @@
                 <mat-icon style="margin: 0">terrain</mat-icon>
                 <span *ngIf="!collapsed" style="padding-left: 0.5em">mountain</span>
               </button>
+
+              <!-- city -->
+              <button mat-stroked-button color="primary" routerLink="/city">
+                <mat-icon style="margin: 0">location_city</mat-icon>
+                <span *ngIf="!collapsed" style="padding-left: 0.5em">city</span>
+              </button>
           </nav>
       </div>
       <button class="toggle-collapse" mat-raised-button (click)="toggleCollapse()">
