@@ -59,15 +59,14 @@ export class UpdateService {
       })
     );
 
-    const appUpdates$ = (appIsStable$).pipe(
-      mergeMap(() => update$),
-      mergeMap(() => versionUpdates$),
+    const appUpdates$ = appIsStable$.pipe(
+      mergeMap(() => update$.pipe(mergeMap(() => versionUpdates$))),
       retry()
     );
 
     versionUpdates$.subscribe((value) => {
-      console.log(`Version ${value.currentVersion.hash} downloaded`)
-      console.log(`Version ${value.latestVersion.hash} ready to install`)
+      console.log(`Version ${value.currentVersion.hash} downloaded`);
+      console.log(`Version ${value.latestVersion.hash} ready to install`);
       this.updateApplication(value);
     });
 
@@ -80,7 +79,7 @@ export class UpdateService {
     console.log(appUpdate);
     let snackBar: MatSnackBarRef<TextOnlySnackBar>;
     if (!appUpdate) {
-      return
+      return;
     } else {
       snackBar = this.matSnackBar.open(
         `Updating from ${appUpdate.currentVersion.hash} to the latest version ${appUpdate.latestVersion.hash}`,
