@@ -47,7 +47,7 @@ export class UpdateService {
       catchError(() => EMPTY),
     );
 
-    appIsStable$.pipe(mergeMap(() => updateIsAvailable$)).pipe(mergeMap((isAvailable)=>{
+    every30SecondsOnceAppIsStable$.pipe(mergeMap(() => updateIsAvailable$)).pipe(mergeMap((isAvailable)=>{
       if(isAvailable){
         return appUpdate$
       }else{
