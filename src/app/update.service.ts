@@ -47,12 +47,18 @@ export class UpdateService {
       catchError(() => EMPTY),
     );
 
-    every30SecondsOnceAppIsStable$.pipe(mergeMap(() =>updateIsAvailable$)).subscribe((value) => {
+    updateIsAvailable$.pipe(mergeMap((isAvailable)=>{
+      if(isAvailable){
+        return appUpdate$
+      }else{
+        return EMPTY
+      }
+    })).subscribe((value) => {
       console.log(`updateIsAvailable$ ${value}`);
     })
-    every30SecondsOnceAppIsStable$.pipe(mergeMap(() =>appUpdate$)).subscribe((value) => {
-      console.log(`appUpdate$ ${value}`);
-    })
+    // every30SecondsOnceAppIsStable$.pipe(mergeMap(() =>appUpdate$)).subscribe((value) => {
+    //   console.log(`appUpdate$ ${value}`);
+    // })
     const appUpdates$ = appIsStable$.pipe(
       mergeMap(() => updateIsAvailable$.pipe(
         mergeMap(() => appUpdate$),
