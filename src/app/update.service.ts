@@ -86,7 +86,7 @@ export class UpdateService {
         { duration: 30 * 1000 }
       );
     }
-    snackBar.afterDismissed().subscribe(() => {
+    snackBar.onAction().subscribe(() => {
       window.location.reload();
     });
   }
