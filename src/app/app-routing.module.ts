@@ -5,6 +5,7 @@ import { HomeComponent } from './home.component';
 import { BeachComponent } from './beach.component';
 import { MountainComponent } from './mountain.component';
 import { CityComponent } from './city.component';
+import { OfficeComponent } from './office.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,11 @@ const routes: Routes = [
   {
     path: 'city',
     component: CityComponent
+  },
+  // office
+  {
+    path:'office',
+   component: OfficeComponent
   },
   {
     path:'**',
