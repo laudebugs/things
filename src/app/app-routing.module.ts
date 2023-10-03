@@ -35,10 +35,10 @@ const routes: Routes = [
     path:'office',
    component: OfficeComponent
   },
-  {
-    path:'mars',
-   component: MarsComponent
-  },
+  // {
+  //   path:'mars',
+  //  component: MarsComponent
+  // },
   {
     path:'**',
    component: HomeComponent
