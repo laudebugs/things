@@ -26,7 +26,6 @@ export class UpdateService {
     private matSnackBar: MatSnackBar
   ) {
     this.checkForUpdates();
-    // this.updateApplication({currentVersion: {hash: '123'}, latestVersion: {hash: '456'}} as VersionReadyEvent)
   }
 
   checkForUpdates() {
@@ -40,26 +39,25 @@ export class UpdateService {
     );
 
     const updateIsAvailable$ = from(
-      this.updates.checkForUpdate().catch(() => {
-        console.log('Failed to check for update');
-        return Promise.resolve(false);
-      })
+      this.updates.checkForUpdate().catch(() => Promise.resolve(false)     )
     )
 
     const appUpdate$ = this.updates.versionUpdates.pipe(
       filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
-      tap((evt) => console.log('Version update event: ', evt)),
-      catchError((error) => {
-        console.error('Error occurred while updating: ', error.message);
-        return EMPTY;
-      })
+      catchError(() => EMPTY),
     );
 
     const appUpdates$ = appIsStable$.pipe(
-      mergeMap(() => updateIsAvailable$.pipe(mergeMap(() => appUpdate$))),
+      mergeMap(() => updateIsAvailable$.pipe(
+        mergeMap(() => appUpdate$),
+        tap((value) => {
+          console.log(`1. Version ${value.currentVersion.hash} downloaded`);
+          console.log(`1. Version ${value.latestVersion.hash} ready to install`);
+        })
+        )),
       tap((value) => {
-        console.log(`Version ${value.currentVersion.hash} downloaded`);
-        console.log(`Version ${value.latestVersion.hash} ready to install`);
+        console.log(`2. Version ${value.currentVersion.hash} downloaded`);
+        console.log(`2. Version ${value.latestVersion.hash} ready to install`);
       }),
       retry()
     );
@@ -70,7 +68,6 @@ export class UpdateService {
   }
 
   updateApplication(appUpdate?: VersionReadyEvent) {
-    console.log(appUpdate);
     let snackBar: MatSnackBarRef<TextOnlySnackBar>;
     if (!appUpdate) {
       return;
