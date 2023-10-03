@@ -54,29 +54,30 @@ export class UpdateService {
         return EMPTY
       }
     })).subscribe((value) => {
-      console.log(`updateIsAvailable$ ${value}`);
+      console.log(`updateIsAvailable$ ${JSON.stringify(value)}`);
+      this.updateApplication(value)
     })
     // every30SecondsOnceAppIsStable$.pipe(mergeMap(() =>appUpdate$)).subscribe((value) => {
     //   console.log(`appUpdate$ ${value}`);
     // })
-    const appUpdates$ = appIsStable$.pipe(
-      mergeMap(() => updateIsAvailable$.pipe(
-        mergeMap(() => appUpdate$),
-        tap((value) => {
-          console.log(`1. Version ${value.currentVersion.hash} downloaded`);
-          console.log(`1. Version ${value.latestVersion.hash} ready to install`);
-        })
-        )),
-      tap((value) => {
-        console.log(`2. Version ${value.currentVersion.hash} downloaded`);
-        console.log(`2. Version ${value.latestVersion.hash} ready to install`);
-      }),
-      retry()
-    );
+    // const appUpdates$ = appIsStable$.pipe(
+    //   mergeMap(() => updateIsAvailable$.pipe(
+    //     mergeMap(() => appUpdate$),
+    //     tap((value) => {
+    //       console.log(`1. Version ${value.currentVersion.hash} downloaded`);
+    //       console.log(`1. Version ${value.latestVersion.hash} ready to install`);
+    //     })
+    //     )),
+    //   tap((value) => {
+    //     console.log(`2. Version ${value.currentVersion.hash} downloaded`);
+    //     console.log(`2. Version ${value.latestVersion.hash} ready to install`);
+    //   }),
+    //   retry()
+    // );
 
-    every30SecondsOnceAppIsStable$
-      .pipe(mergeMap(() => appUpdates$))
-      .subscribe((value) => this.updateApplication(value));
+    // every30SecondsOnceAppIsStable$
+    //   .pipe(mergeMap(() => appUpdates$))
+    //   .subscribe((value) => this.updateApplication(value));
   }
 
   updateApplication(appUpdate?: VersionReadyEvent) {
