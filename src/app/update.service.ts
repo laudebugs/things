@@ -66,7 +66,7 @@ export class UpdateService {
 
     every30SecondsOnceAppIsStable$
       .pipe(mergeMap(() => appUpdates$))
-      .subscribe(() => this.updateApplication());
+      .subscribe((value) => this.updateApplication(value));
   }
 
   updateApplication(appUpdate?: VersionReadyEvent) {
