@@ -31,10 +31,10 @@ const routes: Routes = [
     component: CityComponent
   },
   // office
-  {
-    path:'office',
-   component: OfficeComponent
-  },
+  // {
+  //   path:'office',
+  //  component: OfficeComponent
+  // },
   // {
   //   path:'mars',
   //  component: MarsComponent
