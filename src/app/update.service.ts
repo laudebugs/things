@@ -39,24 +39,32 @@ export class UpdateService {
     );
 
     const updateIsAvailable$ = from(
-      this.updates.checkForUpdate().catch(() => Promise.resolve(false)     )
-    )
+      this.updates.checkForUpdate().catch(() => Promise.resolve(false))
+    );
 
     const appUpdate$ = this.updates.versionUpdates.pipe(
       filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
-      catchError(() => EMPTY),
+      catchError(() => EMPTY)
     );
 
-    every30SecondsOnceAppIsStable$.pipe(mergeMap(() => updateIsAvailable$)).pipe(mergeMap((isAvailable)=>{
-      if(isAvailable){
-        return appUpdate$
-      }else{
-        return EMPTY
-      }
-    })).subscribe((value) => {
-      console.log(`updateIsAvailable$ ${JSON.stringify(value)}`);
-      this.updateApplication(value)
-    })
+    every30SecondsOnceAppIsStable$
+      .pipe(
+        mergeMap(() => updateIsAvailable$),
+        tap((isAvailable) => console.log(`isAvailable ${isAvailable}`)),
+        mergeMap((isAvailable) => {
+          if (isAvailable) {
+            return appUpdate$;
+          } else {
+            return EMPTY;
+          }
+        }),
+        tap((evt) => console.log(`evt ${JSON.stringify(evt)}`)),
+        retry(1)
+      )
+      .subscribe((value) => {
+        console.log(`updateIsAvailable$ ${JSON.stringify(value)}`);
+        this.updateApplication(value);
+      });
   }
 
   updateApplication(appUpdate?: VersionReadyEvent) {
