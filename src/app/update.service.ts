@@ -14,6 +14,7 @@ import {
   from,
   mergeMap,
   retry,
+  tap,
 } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -41,8 +42,11 @@ export class UpdateService {
     );
 
     const appUpdates$ = appIsStable$.pipe(
+      tap(() => console.log('App is stable')),
       mergeMap(() => update$),
+      tap((result) => console.log('Update Available: ' + result)),
       mergeMap(() => versionUpdates$),
+      tap((version) => console.log('Current version is: ' + version.currentVersion.hash)),
       retry(1)
     );
 
