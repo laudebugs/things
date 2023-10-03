@@ -33,12 +33,7 @@ export class UpdateService {
   checkForUpdates() {
     const appIsStable$ = this.appRef.isStable.pipe(
       first((isStable) => isStable === true)
-    );
-    const every30Seconds$ = interval(5 * 1000);
-    const every30SecondsOnceAppIsStable$ = concat(
-      appIsStable$,
-      every30Seconds$
-    );
+    )
 
     const updateIsAvailable$ = from(
       this.updates.checkForUpdate().catch(() => Promise.resolve(false))
@@ -50,28 +45,15 @@ export class UpdateService {
       shareReplay(1)
     );
 
-    appIsStable$.pipe(mergeMap(() => appUpdate$)).subscribe((evt) => {
-      console.log(`update evt sub => evt ${JSON.stringify(evt)}`);
-      // this.updateApplication(evt);
-    });
     appIsStable$
       .pipe(
         mergeMap(() => updateIsAvailable$),
-        tap((isAvailable) => console.log(`isAvailable ${isAvailable}`)),
-        mergeMap((isAvailable) => {
-          if (isAvailable) {
-            return appUpdate$;
-          } else {
-            return EMPTY;
-          }
-        }),
-        tap((evt) => console.log(`evt ${JSON.stringify(evt)}`)),
+        mergeMap((isAvailable) => isAvailable ? appUpdate$ : EMPTY),
         retry(1)
       )
-      .subscribe((value) => {
-        console.log(`updateIsAvailable$ ${JSON.stringify(value)}`);
-        this.updateApplication(value);
-      });
+      .subscribe((value) =>
+        this.updateApplication(value)
+      )
   }
 
   updateApplication(appUpdate: VersionReadyEvent) {
