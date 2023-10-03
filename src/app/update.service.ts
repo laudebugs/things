@@ -47,7 +47,7 @@ export class UpdateService {
       catchError(() => EMPTY)
     );
 
-    every30SecondsOnceAppIsStable$
+    appIsStable$
       .pipe(
         mergeMap(() => updateIsAvailable$),
         tap((isAvailable) => console.log(`isAvailable ${isAvailable}`)),
