@@ -15,6 +15,7 @@ import {
   interval,
   mergeMap,
   retry,
+  share,
   tap,
 } from 'rxjs';
 
@@ -44,9 +45,13 @@ export class UpdateService {
 
     const appUpdate$ = this.updates.versionUpdates.pipe(
       filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
-      catchError(() => EMPTY)
+      catchError(() => EMPTY),
+      share()
     );
 
+    appUpdate$.subscribe((evt) => {
+      console.log(`update evt sub => evt ${JSON.stringify(evt)}`);
+    })
     appIsStable$
       .pipe(
         mergeMap(() => updateIsAvailable$),
