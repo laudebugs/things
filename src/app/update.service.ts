@@ -87,6 +87,7 @@ export class UpdateService {
       );
     }
     snackBar.onAction().subscribe(() => {
+      alert('Reloading the application to update to the latest version');
       window.location.reload();
     });
   }
