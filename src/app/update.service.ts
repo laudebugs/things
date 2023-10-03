@@ -30,6 +30,7 @@ export class UpdateService {
           if (updateAvailable) {
             return this.updates.versionUpdates.pipe(
               // retry(3),
+              tap((evt) => console.log('Version update event: ', evt)),
               filter(
                 (evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'
               ),
