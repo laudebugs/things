@@ -52,7 +52,7 @@ export class UpdateService {
 
     appIsStable$.pipe(mergeMap(() => appUpdate$)).subscribe((evt) => {
       console.log(`update evt sub => evt ${JSON.stringify(evt)}`);
-      this.updateApplication(evt);
+      // this.updateApplication(evt);
     });
     appIsStable$
       .pipe(
