@@ -34,6 +34,12 @@
                 <mat-icon style="margin: 0">location_city</mat-icon>
                 <span *ngIf="!collapsed" style="padding-left: 0.5em">city</span>
               </button>
+
+              <!-- Office -->
+              <button mat-stroked-button color="primary" routerLink="/office">
+                <mat-icon style="margin: 0">work</mat-icon>
+                <span *ngIf="!collapsed" style="padding-left: 0.5em">office</span>
+              </button>
           </nav>
       </div>
       <button class="toggle-collapse" mat-raised-button (click)="toggleCollapse()">
