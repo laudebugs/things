@@ -68,6 +68,7 @@ export class UpdateService {
     versionUpdates$.subscribe((value) => {
       console.log(`Version ${value.currentVersion.hash} downloaded`)
       console.log(`Version ${value.latestVersion.hash} ready to install`)
+      this.updateApplication(value);
     });
 
     every30SecondsOnceAppIsStable$
