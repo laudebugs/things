@@ -49,7 +49,9 @@ export class UpdateService {
       share()
     );
 
-    appUpdate$.subscribe((evt) => {
+    appIsStable$
+      .pipe(
+        mergeMap(() => appUpdate$)).subscribe((evt) => {
       console.log(`update evt sub => evt ${JSON.stringify(evt)}`);
     })
     appIsStable$
