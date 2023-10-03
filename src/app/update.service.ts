@@ -45,9 +45,9 @@ export class UpdateService {
         return Promise.resolve(false);
       })
     ).pipe(
-      tap((updateAvailable) => {
-        console.log('Update available: ', updateAvailable);
-      })
+      tap((updateAvailable) =>
+        console.log('Update available: ', updateAvailable)
+      )
     );
 
     const versionUpdates$ = this.updates.versionUpdates.pipe(
@@ -59,7 +59,8 @@ export class UpdateService {
       })
     );
 
-    const appUpdates$ = concat(appIsStable$, update$).pipe(
+    const appUpdates$ = (appIsStable$).pipe(
+      mergeMap(() => update$),
       mergeMap(() => versionUpdates$),
       retry()
     );
