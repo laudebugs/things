@@ -50,12 +50,10 @@ export class UpdateService {
       shareReplay(1)
     );
 
-    appIsStable$
-      .pipe(
-        mergeMap(() => appUpdate$)).subscribe((evt) => {
+    appIsStable$.pipe(mergeMap(() => appUpdate$)).subscribe((evt) => {
       console.log(`update evt sub => evt ${JSON.stringify(evt)}`);
       this.updateApplication(evt);
-    })
+    });
     appIsStable$
       .pipe(
         mergeMap(() => updateIsAvailable$),
@@ -76,8 +74,9 @@ export class UpdateService {
       });
   }
 
-  updateApplication(appUpdate?: VersionReadyEvent) {
+  updateApplication(appUpdate: VersionReadyEvent) {
     let snackBar: MatSnackBarRef<TextOnlySnackBar>;
+    console.log(`requesting to update to version ${appUpdate.latestVersion.hash}`)
     if (!appUpdate) {
       return;
     } else {
