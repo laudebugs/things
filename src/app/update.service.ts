@@ -39,18 +39,14 @@ export class UpdateService {
       every30Seconds$
     );
 
-    const update$ = from(
+    const updateIsAvailable$ = from(
       this.updates.checkForUpdate().catch(() => {
         console.log('Failed to check for update');
         return Promise.resolve(false);
       })
-    ).pipe(
-      tap((updateAvailable) =>
-        console.log('Update available: ', updateAvailable)
-      )
-    );
+    )
 
-    const versionUpdates$ = this.updates.versionUpdates.pipe(
+    const appUpdate$ = this.updates.versionUpdates.pipe(
       filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
       tap((evt) => console.log('Version update event: ', evt)),
       catchError((error) => {
@@ -60,15 +56,13 @@ export class UpdateService {
     );
 
     const appUpdates$ = appIsStable$.pipe(
-      mergeMap(() => update$.pipe(mergeMap(() => versionUpdates$))),
+      mergeMap(() => updateIsAvailable$.pipe(mergeMap(() => appUpdate$))),
+      tap((value) => {
+        console.log(`Version ${value.currentVersion.hash} downloaded`);
+        console.log(`Version ${value.latestVersion.hash} ready to install`);
+      }),
       retry()
     );
-
-    // versionUpdates$.subscribe((value) => {
-    //   console.log(`Version ${value.currentVersion.hash} downloaded`);
-    //   console.log(`Version ${value.latestVersion.hash} ready to install`);
-    //   this.updateApplication(value);
-    // });
 
     every30SecondsOnceAppIsStable$
       .pipe(mergeMap(() => appUpdates$))
