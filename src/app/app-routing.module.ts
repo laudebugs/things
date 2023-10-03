@@ -4,6 +4,7 @@ import { FoodComponent } from './food.component';
 import { HomeComponent } from './home.component';
 import { BeachComponent } from './beach.component';
 import { MountainComponent } from './mountain.component';
+import { CityComponent } from './city.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path:'mountain',
    component: MountainComponent
+  },
+  {
+    path: 'city',
+    component: CityComponent
   },
   {
     path:'**',
