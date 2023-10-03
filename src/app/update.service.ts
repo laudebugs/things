@@ -8,16 +8,12 @@ import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import {
   EMPTY,
   catchError,
-  concat,
   filter,
   first,
   from,
-  interval,
   mergeMap,
   retry,
-  share,
-  shareReplay,
-  tap,
+  shareReplay
 } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -58,7 +54,6 @@ export class UpdateService {
 
   updateApplication(appUpdate: VersionReadyEvent) {
     let snackBar: MatSnackBarRef<TextOnlySnackBar>;
-    console.log(`requesting to update to version ${appUpdate.latestVersion.hash}`)
     if (!appUpdate) {
       return;
     } else {
@@ -69,7 +64,6 @@ export class UpdateService {
       );
     }
     snackBar.onAction().subscribe(() => {
-      alert('Reloading the application to update to the latest version');
       window.location.reload();
     });
   }
