@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FoodComponent } from './food.component';
-import { HomeComponent } from './home.component';
-import { BeachComponent } from './beach.component';
-import { MountainComponent } from './mountain.component';
-import { CityComponent } from './city.component';
-import { OfficeComponent } from './office.component';
-import { MarsComponent } from './mars.component';
+import { FoodComponent } from './places/food.component';
+import { HomeComponent } from './places/home.component';
+import { BeachComponent } from './places/beach.component';
+import { MountainComponent } from './places/mountain.component';
+import { CityComponent } from './places/city.component';
+import { OfficeComponent } from './places/office.component';
+import { MarsComponent } from './places/mars.component';
+import { HospitalComponent } from './places/hospital.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,10 @@ const routes: Routes = [
   {
     path: 'mars',
     component: MarsComponent,
+  },
+  {
+    path: 'hospital',
+    component: HospitalComponent
   },
   {
     path: '**',
