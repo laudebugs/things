@@ -30,7 +30,7 @@
         ],
         "scripts": [],
         "serviceWorker": true,
-        "ngswConfigPath": "ngsw-config.json"
+        "ngswConfigPath": "apps/things/ngsw-config.json"
       },
       "configurations": {
         "production": {
