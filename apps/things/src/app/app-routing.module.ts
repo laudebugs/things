@@ -31,7 +31,6 @@ const routes: Routes = [
     path: 'city',
     component: CityComponent,
   },
-  // office
   {
     path: 'office',
     component: OfficeComponent,
