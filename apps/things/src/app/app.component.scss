@@ -25,13 +25,13 @@ div.main-container {
       flex-direction: column;
       justify-content: flex-start;
 
-      .logo-container{
+      .logo-container {
         display: flex;
         justify-content: space-evenly;
         flex-direction: row;
         align-items: center;
         height: 48px;
-        .app-title{
+        .app-title {
           &.collapsed {
             display: none;
           }
@@ -48,10 +48,8 @@ div.main-container {
         margin-left: 10px;
       }
       overflow: hidden;
-
     }
     transition: width 0.2s ease-in-out;
-
   }
 
   .main-content {

@@ -13,7 +13,7 @@ import {
   from,
   mergeMap,
   retry,
-  shareReplay
+  shareReplay,
 } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -29,7 +29,7 @@ export class UpdateService {
   checkForUpdates() {
     const appIsStable$ = this.appRef.isStable.pipe(
       first((isStable) => isStable === true)
-    )
+    );
 
     const updateIsAvailable$ = from(
       this.updates.checkForUpdate().catch(() => Promise.resolve(false))
@@ -44,12 +44,10 @@ export class UpdateService {
     appIsStable$
       .pipe(
         mergeMap(() => updateIsAvailable$),
-        mergeMap((isAvailable) => isAvailable ? appUpdate$ : EMPTY),
+        mergeMap((isAvailable) => (isAvailable ? appUpdate$ : EMPTY)),
         retry(1)
       )
-      .subscribe((value) =>
-        this.updateApplication(value)
-      )
+      .subscribe((value) => this.updateApplication(value));
   }
 
   updateApplication(appUpdate: VersionReadyEvent) {

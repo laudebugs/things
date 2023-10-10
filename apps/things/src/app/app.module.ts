@@ -8,10 +8,7 @@ import { MaterialModule } from './material.module';
 import { FoodComponent } from './food.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
-  declarations: [
-    AppComponent,
-    FoodComponent
-  ],
+  declarations: [AppComponent, FoodComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -21,10 +18,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    })
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,0 +1,69 @@
+<div class="main-container">
+  <div mode="side" opened class="side-nav" [ngClass]="{collapsed}">
+    <div class="menu">
+      <div class="logo-container">
+        <mat-icon class="button-icon">diversity_2</mat-icon>
+        <h1 class="app-title" [ngClass]="{collapsed}">WebAppTitle</h1>
+      </div>
+
+      <nav
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 1em;
+          padding: 0 0.5em;
+        "
+      >
+        <!-- Add Navigation buttons or anything else here -->
+        <button mat-stroked-button color="primary" routerLink="/">
+          <span *ngIf="!collapsed" style="padding-left: 0.5em">home</span>
+          <mat-icon style="margin: 0">home</mat-icon>
+        </button>
+        <button mat-stroked-button color="primary" routerLink="/food">
+          <mat-icon style="margin: 0">restaurant</mat-icon>
+          <span *ngIf="!collapsed" style="padding-left: 0.5em">food!</span>
+        </button>
+        <!-- beach -->
+        <button mat-stroked-button color="primary" routerLink="/beach">
+          <mat-icon style="margin: 0">beach_access</mat-icon>
+          <span *ngIf="!collapsed" style="padding-left: 0.5em">beach</span>
+        </button>
+
+        <!-- mountain -->
+        <button mat-stroked-button color="primary" routerLink="/mountain">
+          <mat-icon style="margin: 0">terrain</mat-icon>
+          <span *ngIf="!collapsed" style="padding-left: 0.5em">mountain</span>
+        </button>
+
+        <!-- city -->
+        <button mat-stroked-button color="primary" routerLink="/city">
+          <mat-icon style="margin: 0">location_city</mat-icon>
+          <span *ngIf="!collapsed" style="padding-left: 0.5em">city</span>
+        </button>
+
+        <!-- Office -->
+        <button mat-stroked-button color="primary" routerLink="/office">
+          <mat-icon style="margin: 0">work</mat-icon>
+          <span *ngIf="!collapsed" style="padding-left: 0.5em">office</span>
+        </button>
+
+        <!-- planet -->
+        <button mat-stroked-button color="primary" routerLink="/mars">
+          <mat-icon style="margin: 0">public</mat-icon>
+          <span *ngIf="!collapsed" style="padding-left: 0.5em">planet</span>
+        </button>
+      </nav>
+    </div>
+    <button
+      class="toggle-collapse"
+      mat-raised-button
+      (click)="toggleCollapse()"
+    >
+      {{ collapsed ? '' : 'Collapse' }}
+      <mat-icon class="button-icon">{{ collapsed ? 'east' : 'west' }}</mat-icon>
+    </button>
+  </div>
+  <div class="main-content" [ngClass]="{collapsed}">
+    <router-outlet></router-outlet>
+  </div>
+</div>

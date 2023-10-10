@@ -10,43 +10,43 @@ import { MarsComponent } from './mars.component';
 
 const routes: Routes = [
   {
-    path:'food',
-   component: FoodComponent
+    path: 'food',
+    component: FoodComponent,
   },
   {
-    path:'home',
-   component: HomeComponent
+    path: 'home',
+    component: HomeComponent,
   },
   {
     path: 'beach',
-    component: BeachComponent
+    component: BeachComponent,
   },
   // mountain
   {
-    path:'mountain',
-   component: MountainComponent
+    path: 'mountain',
+    component: MountainComponent,
   },
   {
     path: 'city',
-    component: CityComponent
+    component: CityComponent,
   },
   // office
   {
-    path:'office',
-   component: OfficeComponent
+    path: 'office',
+    component: OfficeComponent,
   },
   {
-    path:'mars',
-   component: MarsComponent
+    path: 'mars',
+    component: MarsComponent,
   },
   {
-    path:'**',
-   component: HomeComponent
+    path: '**',
+    component: HomeComponent,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

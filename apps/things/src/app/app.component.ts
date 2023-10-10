@@ -7,19 +7,19 @@ import { UpdateService } from './update.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  #collapsed = JSON.parse(localStorage.getItem('collapsed') ?? 'false')
+  #collapsed = JSON.parse(localStorage.getItem('collapsed') ?? 'false');
 
-  constructor(private updateService: UpdateService){}
+  constructor(private updateService: UpdateService) {}
 
   get collapsed(): boolean {
-      return this.#collapsed
+    return this.#collapsed;
   }
   set collapsed(value: boolean) {
-      this.#collapsed = value
-      localStorage.setItem('collapsed', JSON.stringify(value))
+    this.#collapsed = value;
+    localStorage.setItem('collapsed', JSON.stringify(value));
   }
 
   toggleCollapse(): void {
-      this.collapsed = !this.collapsed
+    this.collapsed = !this.collapsed;
   }
 }
